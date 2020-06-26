@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<title>Chat bot ville de Lausanne</title>
+</head>
+<body>
+
+
+ <button onclick="triggerEvent('USER2M')">Utilisateur à 2 mètres</button>
+  <button onclick="triggerEvent('USER4M')">Utilisateur à 4 mètres</button>
+<center>
+	<div id="cible" style="width:500px; height:300px">
+		
+	</div>
+</center>
+</body>
+<script type="text/javascript">
+
+window.__flowai_webclient_autoOpen = true;
+window.__flowai_webclient_storage = 'session';
+window.__flowai_webclient_autoTriggerEvent = "USER4M";
+	function triggerEvent(eventName){
+		console.log(eventName);
+		window.__flowai_webclient_autoTriggerEvent = eventName;
+	}
+</script>
+<script src="https://widget.flow.ai/w/YTgxNTNmM2QtOTA3Zi00YTAyLWJmMDgtNTMzM2ViMTRhYjM5fDRiYzRlYmFjLTc1ODEtNDQxMy04ZWMwLWFiMDc1NmRkMjNmZA==/flow-webclient-1.1.2.min.js"></script>
+
+
+
+</html>

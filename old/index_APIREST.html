@@ -1,0 +1,375 @@
+<html>
+  <head>
+    <title>Ville de Lausanne REST</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="Access-Control-Allow-Origin" value="*"  />
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+	<body>
+
+	</body>
+    <script>
+        (function () {
+      // Vanilla JS example
+      // When executing this script. Check your development console for any messages
+
+      // This identifies specific user's message
+      var threadId = '1'
+
+      // Can be found within the 'Outbound' section of your REST integration inside the Flow.ai dashboard
+      var token = 'sk_cd196b38d248cab02188e8cd0e597b3e'
+
+      var url = 'https://api.flow.ai/rest/v1/'
+
+      function sendTextMessage() {
+        console.info('sendTextMessage')
+
+        var message = {
+          "payload": {
+            "type": "text",
+            "speech": "test",
+            "originator": {
+              "name": "John Doe",
+              "role": "external",
+              "profile": {
+                "fullName": "John Doe",
+                "firstName": "John",
+                "lastName": "Doe",
+                "gender": "M",
+                "locale": "en-US",
+                "timezone": -5,
+                "country": "us",
+                "email": "notloving@spam.com",
+                "picture": "https://randompicture.org"
+              }
+            }
+          }
+        }
+
+        // Messaging/history endpoint
+        var messageUrl = url + 'messages/' + threadId
+
+        // Create a POST request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('POST', messageUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send(JSON.stringify(message))
+      }
+
+      function sendEventMessage() {
+        console.info('sendEventMessage')
+
+        var event = {
+          "payload": {
+            "type": "event",
+            "eventName": "test_event",
+            "originator": {
+              "name": "John Doe",
+              "role": "external",
+              "profile": {
+                "fullName": "John Doe",
+                "firstName": "John",
+                "lastName": "Doe",
+                "gender": "M",
+                "locale": "en-US",
+                "timezone": -5,
+                "country": "us",
+                "email": "notloving@spam.com",
+                "picture": "https://randompicture.org"
+              }
+            }
+          }
+        }
+
+        // Messaging/history endpoint
+        var messageUrl = url + 'messages/' + threadId
+
+        // Create a POST request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('POST', messageUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send(JSON.stringify(event))
+      }
+
+      function sendLocationMessage() {
+        console.info('sendLocationMessage')
+
+        var location = {
+          "payload": {
+            "type": "location",
+            "lat": "12.3",
+            "long": "3.21",
+            "originator": {
+              "name": "John Doe",
+              "role": "external",
+              "profile": {
+                "fullName": "John Doe",
+                "firstName": "John",
+                "lastName": "Doe",
+                "gender": "M",
+                "locale": "en-US",
+                "timezone": -5,
+                "country": "us",
+                "email": "notloving@spam.com",
+                "picture": "https://randompicture.org"
+              }
+            }
+          }
+        }
+
+        // Messaging/history endpoint
+        var messageUrl = url + 'messages/' + threadId
+
+        // Create a POST request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('POST', messageUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send(JSON.stringify(location))
+      }
+
+      function sendMediaMessage() {
+        console.info('sendMediaMessage')
+
+        var media = {
+          "payload": {
+            "type": "media",
+            "mediaType": "image",
+            "url": "https://source.unsplash.com/random/880x400",
+            "originator": {
+              "name": "John Doe",
+              "role": "external",
+              "profile": {
+                "fullName": "John Doe",
+                "firstName": "John",
+                "lastName": "Doe",
+                "gender": "M",
+                "locale": "en-US",
+                "timezone": -5,
+                "country": "us",
+                "email": "notloving@spam.com",
+                "picture": "https://randompicture.org"
+              }
+            }
+          }
+        }
+
+        // Messaging/history endpoint
+        var messageUrl = url + 'messages/' + threadId
+
+        // Create a POST request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('POST', messageUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send(JSON.stringify(media))
+      }
+
+      function getMessagingHistory() {
+        console.info('getMessagingHistory')
+
+        // Messaging/history endpoint
+        var historyUrl = url + 'messages/' + threadId
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('GET', historyUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.send()
+      }
+
+      function getMessagingHistorySync() {
+        console.info('getMessagingHistorySync')
+
+        // Messaging/history endpoint
+        var historyUrl = url + 'messages/' + threadId + '?sync=true'
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponseSync
+        req.responseType = 'json'
+        req.open('GET', historyUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function getBusinessHours() {
+        console.info('getBusinessHours')
+
+        // Messaging/history endpoint
+        var businessHoursUrl = url + 'businesshours'
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('GET', businessHoursUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function getBusinessHoursSync() {
+        console.info('getBusinessHoursSync')
+
+        // Messaging/history endpoint
+        var businessHoursUrl = url + 'businesshours?sync=true'
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponseSync
+        req.responseType = 'json'
+        req.open('GET', businessHoursUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function pauseBotForUser() {
+        console.info('pauseBotForUser')
+
+        // Pause/resume endpoint
+        var pauseUrl = url + 'pause/' + threadId
+
+        // Create a POST request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('POST', pauseUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function resumeBotForUser() {
+        console.info('pauseBotForUser')
+
+        // Pause/resume endpoint
+        var resumeUrl = url + 'pause/' + threadId
+
+        // Create a DELETE request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('DELETE', resumeUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function getBotStatus() {
+        console.info('getBotStatus')
+
+        // Messaging/history endpoint
+        var businessHoursUrl = url + 'pause/' + threadId
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponse
+        req.responseType = 'json'
+        req.open('GET', businessHoursUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function getBotStatusSync() {
+        console.info('getBotStatusSync')
+
+        // Messaging/history endpoint
+        var businessHoursUrl = url + 'pause/' + threadId + '?sync=true'
+
+        //Create a GET request
+        var req = new XMLHttpRequest()
+        req.onload = restEndpointResponseSync
+        req.responseType = 'json'
+        req.open('GET', businessHoursUrl, true)
+        req.setRequestHeader('Authorization', token)
+        req.setRequestHeader("Content-type", "application/json")
+        req.send()
+      }
+
+      function restEndpointResponse(e) {
+        console.info('Received response')
+
+        var xhr = e.target
+
+        if (xhr.status !== 200) {
+          // This is not OK..
+          console.error('Error while sending text message', xhr.response)
+          return
+        }
+        // In other case check your webhook url to see the response from Flow.ai
+      }
+
+      function restEndpointResponseSync(e) {
+        console.info('Received response')
+
+        var xhr = e.target
+
+        if (xhr.status !== 200) {
+          // This is not OK..
+          console.error('Error while sending text message', xhr.response)
+          return
+        } else {
+          console.log(xhr.response)
+        }
+      }
+
+      // Sending text message
+      sendTextMessage()
+
+      // Sending event message
+      sendEventMessage()
+
+      // Sending location message
+      sendLocationMessage()
+
+      // Sending media message
+      sendMediaMessage()
+
+      // Getting business hours for project
+      getBusinessHours()
+      getBusinessHoursSync()
+
+      // Getting messaging history
+      setTimeout(function () {
+        getMessagingHistory()
+        getMessagingHistorySync()
+      }, 1000)
+
+      // Pausing bot
+      setTimeout(function () {
+        pauseBotForUser()
+        getBotStatus()
+        getBotStatusSync()
+      }, 2000)
+
+      // Resuming bot
+      setTimeout(function () {
+        resumeBotForUser()
+      }, 3000)
+    }())
+    </script>
+</html>
