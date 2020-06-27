@@ -1,478 +1,776 @@
 <html>
-  <head>
-    <title>Demo API</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+<head>
+  <title>Demo API</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-        padding-right: 10px;
-      }
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
 
-      .cntnt{
-          padding-top: 25px;
-      }
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      padding-right: 10px;
+    }
 
-    </style>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-2 cntnt" id="menuEvents">
-          <h2>Menu d'action</h2>
-          <br />
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
-            </div>
-            <input disabled id="userId" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    .cntnt {
+      padding-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2 cntnt" id="menuEvents">
+        <h2>Menu d'action</h2>
+        <br />
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">@</span>
           </div>
-          <button onclick="authToggle()" id="authBtn" type="button" class="btn btn-primary">Statut : inconnu</button><br/><br/>
-          <hr /><br/>
-          <button onclick="sendEvnt('USER4M')" type="button" class="btn btn-outline-primary">Visiteur passe la porte</button> <br/><br/>
-          <button onclick="sendEvnt('USER2M')" type="button" class="btn btn-outline-primary">Visiteur devant le robot</button> <br/><br/>
-          <button onclick="sendEvnt('SortieBureauTechnique')" type="button" class="btn btn-outline-primary">Visiteur sort du gichet technique</button> <br/><br/>
-          <button onclick="sendEvnt('SortieBureau')" type="button" class="btn btn-outline-primary">Collaborateur sort d'un bureau</button> <br/><br/>
-          <button onclick="sendEvnt('Temperature')" type="button" class="btn btn-outline-primary">Temperature trop élevée</button><br/><br/>
-          <hr /><br/><br/>
-          <button style="display:none" id="btnQR1" onclick="sendEvnt('QRCodeOK')" type="button" class="btn btn-outline-primary screenDisplay">Présenter un QRCode valide</button><br/>
-          <button style="display:none" id="btnQR2"onclick="sendEvnt('QRCodeKO')" type="button" class="btn btn-outline-primary screenDisplay">Présenter un QRCode non valide</button>
-
-
+          <input id="userId" type="text" class="form-control" placeholder="Nom d'utilisateur" aria-label="Username" aria-describedby="basic-addon1">
         </div>
+        <button onclick="authToggle()" id="authBtn" type="button" class="btn btn-primary">Statut : inconnu</button><br /><br />
+        <hr /><br />
+        <button onclick="sendEvnt('USER4M')" type="button" class="btn btn-outline-primary">Visiteur passe la porte</button> <br /><br />
+        <button onclick="sendEvnt('USER2M')" type="button" class="btn btn-outline-primary">Visiteur devant le robot</button> <br /><br />
+        <button onclick="sendEvnt('SortieBureauTechnique')" type="button" class="btn btn-outline-primary">Visiteur sort du gichet technique</button> <br /><br />
+        <button onclick="sendEvnt('SortieBureau')" type="button" class="btn btn-outline-primary">Collaborateur sort d'un bureau</button> <br /><br />
+        <button onclick="sendEvnt('Temperature')" type="button" class="btn btn-outline-primary">Temperature trop élevée</button><br /><br />
+        <!-- <hr /><br /><br /> -->
+        <button style="display:none" id="btnQR1" onclick="sendEvnt('QRCodeOK')" type="button" class="btn btn-outline-success screenDisplay">Présenter un QRCode valide</button><br />
+        <button style="display:none" id="btnQR2" onclick="sendEvnt('QRCodeKO')" type="button" class="btn btn-outline-danger screenDisplay">Présenter un QRCode non valide</button><br /><br />
+        <hr /><br /><br />
 
-        <div class="col-sm-7 cntnt">
-            <h2>Écran</h2>
-            <br />
-            <div id="screen" class="col-sm-12" style="background-color:#000000; width:100%; padding-top:20px; padding-bottom:20px">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo" style="margin-left:20px;">
+          Manuel d'instruction
+        </button>
+        <br /><br />
+        <button onclick="window.open('http://www.google.ch')" type="button" class="btn btn-info" style="margin-left:20px;">
+          Questionnaire évaluation USUS
+        </button>
+      </div>
 
-              <img class="screenDisplay" id="ScreenVisageRbtNeutre" src="img/Visage_neutre.png" width="100%" style="display:block" />
-              <img class="screenDisplay" id="ScreenVisageRbtFrustre" src="img/Visage_frustre.png" width="100%" style="display:none" />
-              <img class="screenDisplay" id="ScreenVisageRbtContent" src="img/Visage_content.png" width="100%" style="display:none" />
-              <img class="screenDisplay" id="ScreenQuestionnaireQR" src="img/questionnaire.png" width="100%" style="display:none" />
+      <div class="col-sm-7 cntnt">
+        <h2>Écran</h2>
+        <br />
+        <div id="screen" class="col-sm-12" style="background-color:#000000; width:100%; padding-top:20px; padding-bottom:20px">
 
-              <img onclick="sendEvnt('QRCodeOK')" class="screenDisplay" id="ScreenCodeQR" src="img/QRCode.jpg" width="100%" style="display:none; cursor: pointer;" />
+          <img class="screenDisplay" id="ScreenVisageRbtNeutre" src="img/Visage_neutre.png" width="100%" style="display:block" />
+          <img class="screenDisplay" id="ScreenVisageRbtFrustre" src="img/Visage_frustre.png" width="100%" style="display:none" />
+          <img class="screenDisplay" id="ScreenVisageRbtContent" src="img/Visage_content.png" width="100%" style="display:none" />
+          <img class="screenDisplay" id="ScreenQuestionnaireQR" src="img/questionnaire.png" width="100%" style="display:none" />
+
+          <img onclick="interact('Veuillez compléter les informations concernant les réservations de salles','reservationSalle2')" class="screenDisplay" id="screenInteractSalle1" src="img/selectionSalle.png" width="100%"
+            style="display:none; cursor: pointer;" />
+          <img onclick="interact('C est noté, votre salle est réservée','reservationOK')" class="screenDisplay" id="screenInteractSalle2" src="img/reservation_Salle.png" width="100%" style="display:none; cursor: pointer;" />
+
+          <img onclick="interact('C est envoyé','emailOK')" class="screenDisplay" id="screenInteractEmail" src="img/nouveauMessage.png" width="100%" style="display:none; cursor: pointer;" />
+
+          <img onclick="interact('et voilà c est réservé','restauOK')" class="screenDisplay" id="screenInteractRestaurantReservation" src="img/reservationRestau.png" width="100%" style="display:none; cursor: pointer;" />
+
+          <img onclick="interact('Je reste à ta disposition si tu as besoins de plus d information','infoTransportOK')" class="screenDisplay" id="screenInteractTrain" src="img/horaireCFF.png" width="100%" style="display:none; cursor: pointer;" />
+          <img onclick="interact('Je reste à ta disposition si tu as besoins de plus d information','infoTransportOK')" class="screenDisplay" id="screenInteractBus" src="img/TL.png" width="100%" style="display:none; cursor: pointer;" />
+          <img onclick="interact('Je reste à ta disposition si tu as besoins de plus d information','infoTransportOK')" class="screenDisplay" id="screenInteractVoiture" src="img/etatRoute.png" width="100%" style="display:none; cursor: pointer;" />
 
 
-              <img class="screenDisplay" id="presLausanne0" src="img/Lausanne/Lausanne0.jpg" width="100%" style="display:none" />
+          <img onclick="sendEvnt('QRCodeOK')" class="screenDisplay" id="ScreenCodeQR" src="img/QRCode.jpg" width="100%" style="display:none; cursor: pointer;" />
 
-              <img class="screenDisplay" id="presSOI0" src="img/SOI/Diapositive0.JPG" width="100%" style="display:none" />
-              <img class="screenDisplay" id="presSOI1" src="img/SOI/Diapositive1.JPG" width="100%" style="display:none" />
-              <img class="screenDisplay" id="presSOI2" src="img/SOI/Diapositive2.JPG" width="100%" style="display:none" />
-              <img class="screenDisplay" id="presSOI3" src="img/SOI/Diapositive3.JPG" width="100%" style="display:none" />
-              <img class="screenDisplay" id="presSOI4" src="img/SOI/Diapositive4.JPG" width="100%" style="display:none" />
-              <img class="screenDisplay" id="presSOI5" src="img/SOI/Diapositive5.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presLausanne0" src="img/Lausanne/Lausanne0.jpg" width="100%" style="display:none" />
 
-              <img class="screenDisplay" id="event1" src="img/events/event1.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event2" src="img/events/event2.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event3" src="img/events/event3.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event4" src="img/events/event4.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event5" src="img/events/event5.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event6" src="img/events/event6.jpg" width="100%" style="display:none" />
-              <img class="screenDisplay" id="event7" src="img/events/event7.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI0" src="img/SOI/Diapositive0.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI1" src="img/SOI/Diapositive1.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI2" src="img/SOI/Diapositive2.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI3" src="img/SOI/Diapositive3.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI4" src="img/SOI/Diapositive4.JPG" width="100%" style="display:none" />
+          <img class="screenDisplay" id="presSOI5" src="img/SOI/Diapositive5.JPG" width="100%" style="display:none" />
 
-<!-- screenInteract menu inconnu-->
-              <div class="screenDisplay" id="screenInteract1" style="display:none" >
-              <div class="row">
+          <img class="screenDisplay" id="event1" src="img/events/event1.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event2" src="img/events/event2.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event3" src="img/events/event3.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event4" src="img/events/event4.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event5" src="img/events/event5.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event6" src="img/events/event6.jpg" width="100%" style="display:none" />
+          <img class="screenDisplay" id="event7" src="img/events/event7.jpg" width="100%" style="display:none" />
 
-                <div class="col-md-3" onclick="sendEvnt('StartRDV')" style="cursor: pointer;">
-                  <div class="card bg-dark text-white">
-                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                    <div class="card-img-overlay">
-                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'ai rendez-vous</h5>
-                    </div>
+          <!-- screenInteract menu inconnu-->
+          <div class="screenDisplay" id="screenInteract1" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('StartRDV')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'ai rendez-vous</h5>
                   </div>
                 </div>
-
-                <div class="col-md-3" onclick="sendEvnt('situeGuichet')" style="cursor: pointer;">
-                  <div class="card bg-dark text-white">
-                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                    <div class="card-img-overlay">
-                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'ai une livraison</h5>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-3" onclick="sendEvnt('AccueilHumain')" style="cursor: pointer;">
-                  <div class="card bg-dark text-white">
-                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                    <div class="card-img-overlay">
-                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'aimerai être accueilli par un humain</h5>
-                    </div>
-                  </div>
-                </div>
-
               </div>
-<br />
-              <div class="row">
 
-                  <div class="col-md-3" onclick="sendEvnt('PrensentationSOIStart')" style="cursor: pointer;">
-                    <div class="card bg-dark text-white">
-                      <img src="img/icone_cruzr.jpg" class="card-img"/>
-                      <div class="card-img-overlay">
-                        <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présentation SOI</h5>
-                      </div>
-                    </div>
+              <div class="col-md-3" onclick="sendEvnt('situeGuichet')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'ai une livraison</h5>
                   </div>
+                </div>
+              </div>
 
-                  <div class="col-md-3" onclick="sendEvnt('PrensentationLausanneStart')" style="cursor: pointer;">
-                    <div class="card bg-dark text-white">
-                      <img src="img/icone_cruzr.jpg" class="card-img"/>
-                      <div class="card-img-overlay">
-                        <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présentation ville de Lausanne</h5>
-                      </div>
-                    </div>
+              <div class="col-md-3" onclick="sendEvnt('AccueilHumain')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">J'aimerai être accueilli par un humain</h5>
                   </div>
+                </div>
+              </div>
 
-                  <div class="col-md-3" onclick="sendEvnt('PrensentationEventStart')" style="cursor: pointer;">
-                    <div class="card bg-dark text-white">
-                      <img src="img/icone_cruzr.jpg" class="card-img"/>
-                      <div class="card-img-overlay">
-                        <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présenter événement Lausanne</h5>
-                      </div>
-                    </div>
+            </div>
+            <br />
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('PrensentationSOIStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présentation SOI</h5>
                   </div>
+                </div>
+              </div>
 
-                  <div class="col-md-3" onclick="sendEvnt('menu')" style="cursor: pointer;">
-                    <div class="card bg-dark text-white">
-                      <img src="img/icone_cruzr.jpg" class="card-img"/>
-                      <div class="card-img-overlay">
-                        <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">HELP</h5>
-                      </div>
-                    </div>
+              <div class="col-md-3" onclick="sendEvnt('PrensentationLausanneStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présentation ville de Lausanne</h5>
                   </div>
+                </div>
+              </div>
 
+              <div class="col-md-3" onclick="sendEvnt('PrensentationEventStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Présenter événement Lausanne</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('menu')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">HELP</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract menu inconnu-->
+
+          <!-- screenInteractChoixHote menu liste personne-->
+          <div class="screenDisplay" id="screenInteract2" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image1.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IT - Lucille Beuchat</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image2.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IS - Catherine Müller</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image3.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Réseau - Nathalia Sanchez</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image4.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Securité - Didier Kas</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <br />
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image5.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">RH - Béatrice Ombre</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image6.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Direction - Vincent Nguyen</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image7.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Dev - Lucien Canoso</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image8.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Impression - Marjolaine Rochat</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract menu liste personne-->
+
+
+          <!-- screenInteractChoixHote menu liste personne pour presence-->
+          <div class="screenDisplay" id="screenInteract7" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3" onclick="interact('Cette personne est absente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image1.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IT - Lucille Beuchat</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est présente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image2.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IS - Catherine Müller</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est présente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image3.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Réseau - Nathalia Sanchez</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est absente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image4.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Securité - Didier Kas</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <br />
+            <div class="row">
+
+              <div class="col-md-3" onclick="interact('Cette personne est absente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image5.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">RH - Béatrice Ombre</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est présente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image6.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Direction - Vincent Nguyen</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est présente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image7.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Dev - Lucien Canoso</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="interact('Cette personne est absente aujourdhui','prensenceOK')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/personnes/image8.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Impression - Marjolaine Rochat</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract menu liste personne pour presence-->
+
+
+          <!-- screenInteract menu inconnu-->
+          <div class="screenDisplay" id="screenInteract4" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('NouveauRDVStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Notifier nouveau rendez-vous</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('StartVisiteBureau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Faire une visite</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('OuvrirPorteStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Ouvrir une porte</h5>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-3" onclick="sendEvnt('ReservationStart')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Réserver une salle</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <br />
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('envoyerMessage')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Envoyer message</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('presence')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Suivi présence</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('ListeTransports')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Information transport</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('listeRestaurants')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurants</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract menu inconnu-->
+
+          <!-- screenInteractRestaurant-->
+          <div class="screenDisplay" id="screenInteractRestaurant" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3 offset-md-1" onclick="sendEvnt('RestauItalien')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurants italien</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('RestauChinois')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurant chinois</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('RestauIndien')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurants indien</h5>
+                  </div>
+                </div>
               </div>
             </div>
-            <!-- fin screenInteract menu inconnu-->
+          </div>
+          <!-- fin screenInteractRestaurant-->
+          <!-- screenInteractRestaurantItalien-->
+          <div class="screenDisplay" id="screenInteractRestaurantItalien" style="display:none">
+            <div class="row">
 
-            <!-- screenInteractChoixHote menu liste personne-->
-                          <div class="screenDisplay" id="screenInteract2" style="display:none" >
-                          <div class="row">
+              <div class="col-md-3 offset-md-1" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Antica Trattoria</h5>
+                  </div>
+                </div>
+              </div>
 
-                            <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                              <div class="card bg-dark text-white">
-                                <img src="img/personnes/image1.jpg" class="card-img"/>
-                                <div class="card-img-overlay">
-                                  <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IT - Lucille Beuchat</h5>
-                                </div>
-                              </div>
-                            </div>
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurant Italien Ulivo</h5>
+                  </div>
+                </div>
+              </div>
 
-                            <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                              <div class="card bg-dark text-white">
-                                <img src="img/personnes/image2.jpg" class="card-img"/>
-                                <div class="card-img-overlay">
-                                  <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">IS - Catherine Müller</h5>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                              <div class="card bg-dark text-white">
-                                <img src="img/personnes/image3.jpg" class="card-img"/>
-                                <div class="card-img-overlay">
-                                  <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Réseau - Nathalia Sanchez</h5>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                              <div class="card bg-dark text-white">
-                                <img src="img/personnes/image4.jpg" class="card-img"/>
-                                <div class="card-img-overlay">
-                                  <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Securité - Didier Kas</h5>
-                                </div>
-                              </div>
-                            </div>
-
-                          </div>
-            <br />
-                          <div class="row">
-
-                              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/personnes/image5.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">RH - Béatrice Ombre</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/personnes/image6.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Direction - Vincent Nguyen</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/personnes/image7.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Dev - Lucien Canoso</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-3" onclick="sendEvnt('QRCodeOK')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/personnes/image8.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Impression - Marjolaine Rochat</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                          </div>
-                        </div>
-                        <!-- fin screenInteract menu liste personne-->
-
-              <!-- screenInteract menu inconnu-->
-                            <div class="screenDisplay" id="screenInteract4" style="display:none" >
-                            <div class="row">
-
-                              <div class="col-md-3" onclick="sendEvnt('NouveauRDVStart')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Notifier nouveau rendez-vous</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-3" onclick="sendEvnt('situeGuichet')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Faire une visite</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-3" onclick="sendEvnt('AccueilHumain')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Ouvrir une porte</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="col-md-3" onclick="sendEvnt('AccueilHumain')" style="cursor: pointer;">
-                                <div class="card bg-dark text-white">
-                                  <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                  <div class="card-img-overlay">
-                                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Réserver une salle</h5>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-              <br />
-                            <div class="row">
-
-                                <div class="col-md-3" onclick="sendEvnt('PrensentationSOIStart')" style="cursor: pointer;">
-                                  <div class="card bg-dark text-white">
-                                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                    <div class="card-img-overlay">
-                                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Envoyer message</h5>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-3" onclick="sendEvnt('PrensentationLausanneStart')" style="cursor: pointer;">
-                                  <div class="card bg-dark text-white">
-                                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                    <div class="card-img-overlay">
-                                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Suivi présence</h5>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-3" onclick="sendEvnt('PrensentationEventStart')" style="cursor: pointer;">
-                                  <div class="card bg-dark text-white">
-                                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                    <div class="card-img-overlay">
-                                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Information transport</h5>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-3" onclick="sendEvnt('menu')" style="cursor: pointer;">
-                                  <div class="card bg-dark text-white">
-                                    <img src="img/icone_cruzr.jpg" class="card-img"/>
-                                    <div class="card-img-overlay">
-                                      <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Restaurants</h5>
-                                    </div>
-                                  </div>
-                                </div>
-
-                            </div>
-                          </div>
-                          <!-- fin screenInteract menu inconnu-->
-
-                    <!-- screenInteract Event Lausanne-->
-                                  <div class="screenDisplay" id="screenInteract5" style="display:none" >
-                                  <div class="row">
-
-                                    <div class="col-md-3" onclick="sendEvnt('event1')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image1.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à sur mer</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-3" onclick="sendEvnt('event2')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image2.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à pied</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-3" onclick="sendEvnt('event3')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image3.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Théâtre-fantôme pour 1 personne</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-3" onclick="sendEvnt('event4')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image4.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Cirque du Soleil – CRYSTAL</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-<br />
-                                  <div class="row">
-
-                                    <div class="col-md-3" onclick="sendEvnt('event5')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image5.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Equissima</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-3" onclick="sendEvnt('event6')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image6.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à table</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-3" onclick="sendEvnt('event7')" style="cursor: pointer;">
-                                      <div class="card bg-dark text-white">
-                                        <img src="img/events/image7.jpg" class="card-img"/>
-                                        <div class="card-img-overlay">
-                                          <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lucioles dans la nuit</h5>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-                                </div>
-                                <!-- fin screenInteract Satisfaction-->
-
-
-        <!-- screenInteract Satisfaction-->
-                      <div class="screenDisplay" id="screenInteract3" style="display:none" >
-                      <div class="row">
-
-                        <div class="col-md-2  offset-md-1" onclick="sendEvnt('remercier')" style="cursor: pointer;">
-                          <div class="card bg-dark text-white">
-                            <img src="img/evaluation/1.jpg" class="card-img"/>
-                          </div>
-                        </div>
-
-                        <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
-                          <div class="card bg-dark text-white">
-                            <img src="img/evaluation/2.jpg" class="card-img"/>
-                          </div>
-                        </div>
-
-                        <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
-                          <div class="card bg-dark text-white">
-                            <img src="img/evaluation/3.jpg" class="card-img"/>
-                          </div>
-                        </div>
-
-                        <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
-                          <div class="card bg-dark text-white">
-                            <img src="img/evaluation/4.jpg" class="card-img"/>
-                          </div>
-                        </div>
-
-                        <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
-                          <div class="card bg-dark text-white">
-                            <img src="img/evaluation/5.jpg" class="card-img"/>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                    <!-- fin screenInteract Satisfaction-->
-
-                    <!-- screen nouveau visiteur -->
-                    <div class="screenDisplay" id="screenInteract6" style="display:none; background-color:#FFFFFF; padding:20px" >
-                      <div class="row">
-                        <div class="col-md-12">
-                          <form>
-                          <div class="form-row">
-                            <div class="form-group col-md-6">
-                              <label for="inputNom">Nom</label>
-                              <input type="text" class="form-control" id="inputNom" placeholder="Nom">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label for="inputPrenom">Prénom</label>
-                              <input type="text" class="form-control" id="inputPrenom" placeholder="Prénom">
-                            </div>
-                          </div>
-                              <div class="form-row">
-                              <div class="form-group col-md-6">
-                                <label for="inputDate">Prénom</label>
-                                <input type="date" id="inputDate" name="date">
-                              </div>
-                            </div>
-                          </form>
-                          <button onClick="actionEnvoyer()" class="btn btn-primary">Enregistrer</button>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Fin screen nouveau visiteur-->
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Osteria Balsamico</h5>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <!-- fin screenInteractRestaurant-->
+          <!-- screenInteractRestaurantIndien-->
+          <div class="screenDisplay" id="screenInteractRestaurantIndien" style="display:none">
+            <div class="row">
+              <div class="col-md-3 offset-md-1" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Nandanam</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Laxmi</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">New Dehli</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- fin screenInteractRestaurantIdien-->
+          <!-- screenInteractRestaurantChinois-->
+          <div class="screenDisplay" id="screenInteractRestaurantChinois" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3 offset-md-1" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Dong Fang</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Aux trois-bonheurs</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('reseverRestau')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Au canard Pékinois</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- fin screenInteractRestaurant-->
+
+          <!-- ScreenListeTransport-->
+          <div class="screenDisplay" id="ScreenListeTransport" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3 offset-md-1" onclick="sendEvnt('bus')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Info horaires bus</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('train')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Info horaires train</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('voiture')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Info circulation voiture</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- fin ScreenListeTransport-->
+
+
+          <!-- screenInteract Event Lausanne-->
+          <div class="screenDisplay" id="screenInteract5" style="display:none">
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('event1')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image1.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à sur mer</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('event2')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image2.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à pied</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('event3')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image3.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Théâtre-fantôme pour 1 personne</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('event4')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image4.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Cirque du Soleil – CRYSTAL</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <br />
+            <div class="row">
+
+              <div class="col-md-3" onclick="sendEvnt('event5')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image5.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Equissima</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('event6')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image6.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lausanne à table</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" onclick="sendEvnt('event7')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/events/image7.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:0%; text-align:center; padding:10px">Lucioles dans la nuit</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract Satisfaction-->
+
+
+          <!-- screenInteract Satisfaction-->
+          <div class="screenDisplay" id="screenInteract3" style="display:none">
+            <div class="row">
+
+              <div class="col-md-2  offset-md-1" onclick="sendEvnt('remercier')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/evaluation/1.jpg" class="card-img" />
+                </div>
+              </div>
+
+              <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/evaluation/2.jpg" class="card-img" />
+                </div>
+              </div>
+
+              <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/evaluation/3.jpg" class="card-img" />
+                </div>
+              </div>
+
+              <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/evaluation/4.jpg" class="card-img" />
+                </div>
+              </div>
+
+              <div class="col-md-2" onclick="sendEvnt('remercier')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/evaluation/5.jpg" class="card-img" />
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract Satisfaction-->
+
+          <!-- screenInteract Porte-->
+          <div class="screenDisplay" id="screenInteractPorte" style="display:none">
+            <div class="row">
+              <div class="col-md-3  offset-md-3" onclick="sendEvnt('OuvrirPorteGauche')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Porte de gauche</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3" onclick="sendEvnt('OuvrirPorteDroite')" style="cursor: pointer;">
+                <div class="card bg-dark text-white">
+                  <img src="img/icone_cruzr.jpg" class="card-img" />
+                  <div class="card-img-overlay">
+                    <h5 class="card-title" style="background-color:rgba(0, 0, 0, 0.5); margin-top:40%; text-align:center; padding:10px">Porte de droite</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- fin screenInteract Porte-->
+
+          <!-- screen nouveau visiteur -->
+          <div class="screenDisplay" id="screenInteract6" style="display:none; background-color:#FFFFFF; padding:20px">
+            <div class="row">
+              <div class="col-md-12">
+                <form>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputNom">Nom</label>
+                      <input type="text" class="form-control" id="inputNom" placeholder="Nom">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputPrenom">Prénom</label>
+                      <input type="text" class="form-control" id="inputPrenom" placeholder="Prénom">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputDate">Prénom</label>
+                      <input type="date" id="inputDate" name="date">
+                    </div>
+                  </div>
+                </form>
+                <button onClick="actionEnvoyer()" class="btn btn-primary">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+          <!-- Fin screen nouveau visiteur-->
         </div>
+      </div>
 
-        <div class="col-sm-3 cntnt" id="chat">
-          <h2>Dialogue</h2>
-          <br />
-          <div class="row">
-            <div id="cibleChat" class="col-sm-12" style="padding-bottom:20px; margin-bottom: 20px; max-height:800px;  overflow-y: scroll; background-color:#eee">
+      <div class="col-sm-3 cntnt" id="chat">
+        <h2>Dialogue</h2>
+        <br />
+        <div class="row">
+          <div id="cibleChat" class="col-sm-12" style="padding-bottom:20px; margin-bottom: 20px; max-height:800px;  overflow-y: scroll; background-color:#eee">
 
-              <!--
+            <!--
               <div class="media" style="background-color:#ffacb7;">
                 <img src="img/icone_cruzr.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_cruzr">
                 <div class="media-body">
@@ -484,8 +782,8 @@
               </div>
             -->
 
-            </div>
-<br /><br />
+          </div>
+          <br /><br />
           <div class="input-group mb-3">
             <input id="inputMsg" type="text" class="form-control" placeholder="Votre message au robot" aria-label="Recipient's username" aria-describedby="button-addon2">
             <div class="input-group-append">
@@ -499,13 +797,8 @@
 
       </div>
 
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-        Launch demo modal
-      </button>
-
       <!-- Modal -->
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -515,41 +808,81 @@
               </button>
             </div>
             <div class="modal-body">
-              <h1>Bienvenue sur la plateforme de simulation du robot humanoïde Curzr</h1>
+              <h1>Bienvenue sur la plateforme de simulation du robot humanoïde Cruzr</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Cette plateforme de simulation est découpée en 3 zones distinctes
               </p>
+              <ul>
+                <li>
+                  la première zone, sur la gauche, permet de simuler une interaction physique avec le robot en fonction de ses capteures
+                </li>
+                <li>
+                  la deuxième zone, au centre de la page, affiche l'écran du robot qui peut être un affichage de ses yeux ou des écrans d'interaction
+                </li>
+                <li>
+                  la troisième zone, sur la droite, permet de dialoguer avec le robot sous la forme écrite ou vocale.
+                </li>
+              </ul>
+              <p>
+                Afin d'utiliser les fonctionnalités de reconnaissances vocales et retour audio de la part du robot, veuillez utiliser Google Chrome
+              </p>
+              <div class="alert alert-danger" role="alert">
+                Afin d'assurer un bon fonctionnement pour tous, veuillez spécifier un nom d'utilisateur distinct dans le champ prévu à cet effet en haut à gauche de la page et veuillez réutiliser le même à chaque utilisation!
+              </div>
+              <p>
+                Pour changer de statut entre un utilisateur authentifié (Collaborateur du SOI) et un inconnu (visiteur), veuiler utiliser le bouton prévu à cet effet en haut à gauche de la page
+              </p>
+              <p class="font-weight-bolder">
+                Une fois que vous aurez testé plusieurs scénarios, veuillez remplir le questionnaire d'évaluation USUS accessible avec le bouton "Questionnaire évaluation USUS"
+              </p>
+              <br />
+              <hr />
+              <br />
+              <p>
+                Je vous remercie d'avance pour votre participation qui sera une aide précieuse à la réalisation de mon Travail de Master. Si vous avez des questions ou que vous désirez avoir plus de renseignement sur ce projet, vous pouvez me
+                contacter à l'adresse email
+                suivante: <a href:"mailto:jonathan.charlet@master.hes-so.ch">jonathan.charlet@master.hes-so.ch</a>
+              </p>
+              <p class="font-italic">Jonathan Charlet</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
             </div>
           </div>
         </div>
       </div>
 
-</div>
+    </div>
     <script src="js/flowai-js.min.js"></script>
     <script type="text/javascript">
+      var authStatus = "inconnu";
 
-    var authStatus="inconnu";
+      const client = new Flowai.LiveClient({
+        clientId: 'YTgxNTNmM2QtOTA3Zi00YTAyLWJmMDgtNTMzM2ViMTRhYjM5fDRiYzRlYmFjLTc1ODEtNDQxMy04ZWMwLWFiMDc1NmRkMjNmZA==',
 
-		const client = new Flowai.LiveClient({
-      clientId: 'YTgxNTNmM2QtOTA3Zi00YTAyLWJmMDgtNTMzM2ViMTRhYjM5fDRiYzRlYmFjLTc1ODEtNDQxMy04ZWMwLWFiMDc1NmRkMjNmZA==',
+      });
 
-    });
+      var originator = new Flowai.Originator({
+        name: "Inconnu",
+        profile: {
+          firstName: "inconnu"
+        }
+      });
 
-    var originator = new Flowai.Originator({ name: "Inconnu", profile:{firstName:"inconnu"}});
-
-function init() {
-        var { LiveClient, Message, Originator } = Flowai;
+      function init() {
+        var {
+          LiveClient,
+          Message,
+          Originator
+        } = Flowai;
         client.on(LiveClient.RECONNECTING, () => console.info("Reconnecting"));
         client.on(LiveClient.ERROR, err => console.error(err));
         client.on(LiveClient.CONNECTED, function() {
 
         });
 
-				client.on(LiveClient.REPLY_RECEIVED, reply => {
-  				console.log('--> Received a reply', reply, reply.messages[0])
+        client.on(LiveClient.REPLY_RECEIVED, reply => {
+          console.log('--> Received a reply', reply, reply.messages[0])
           console.log(reply.messages[0].fallback);
           var obj = JSON.parse(reply.messages[0].fallback);
           // console.log(reply.messages[0].fallback);
@@ -557,137 +890,158 @@ function init() {
           //  console.log( '--> intent ',obj.intent);
           // console.log(obj.message);
           interact(obj.message, obj.intent);
-				});
+        });
 
 
-				client.on(LiveClient.MESSAGE_SEND, message => {
-  		//		console.log('--> The client is sending a message', message)
-				});
+        client.on(LiveClient.MESSAGE_SEND, message => {
+          //		console.log('--> The client is sending a message', message)
+        });
 
-				client.on(LiveClient.MESSAGE_DELIVERED, message => {
-  				console.log('--> Delivered a message we just sent', message)
-				});
+        client.on(LiveClient.MESSAGE_DELIVERED, message => {
+          console.log('--> Delivered a message we just sent', message)
+        });
 
-				client.on(LiveClient.RECONNECTING, () => {
-				  console.log('--> Trying to reconnect')
-				});
+        client.on(LiveClient.RECONNECTING, () => {
+          console.log('--> Trying to reconnect')
+        });
 
-				client.on(LiveClient.ERROR, err => {
-				  console.log('--> Error while doing stuff', err)
-				});
+        client.on(LiveClient.ERROR, err => {
+          console.log('--> Error while doing stuff', err)
+        });
 
-				client.on(LiveClient.CHECKED_UNNOTICED_MESSAGES, result => {
-				  console.log('--> Checked unnoticed messages', result)
-				});
-
+        client.on(LiveClient.CHECKED_UNNOTICED_MESSAGES, result => {
+          console.log('--> Checked unnoticed messages', result)
+        });
 
         client.start();
       }
 
-function sendEvnt(evnt){
-        var { LiveClient, Message} = Flowai;
-        var originator = new Flowai.Originator({ name: "Inconnu", profile:{firstName:"inconnu"}});
+      function sendEvnt(evnt) {
+        var {
+          LiveClient,
+          Message
+        } = Flowai;
+        var originator = new Flowai.Originator({
+          name: "Inconnu",
+          profile: {
+            firstName: "inconnu"
+          }
+        });
 
-	          var message = new Flowai.Message({
-							threadId: document.getElementById("userId").value,
-	    		 		traceId: 1,
-	        //    speech: "Bonjour",
-	  					attachment: new Flowai.EventAttachment(evnt),
-	            originator
-	          });
-	          client.send(message);
-}
+        var message = new Flowai.Message({
+          threadId: document.getElementById("userId").value,
+          traceId: 1,
+          //    speech: "Bonjour",
+          attachment: new Flowai.EventAttachment(evnt),
+          originator
+        });
+        client.send(message);
+      }
 
-function sendEvnt2(evnt){
-        var { LiveClient, Message } = Flowai;
-        var originator = new Flowai.Originator({ name: "Auth", profile:{firstName:"Auth"}});
+      function sendEvnt2(evnt) {
+        var {
+          LiveClient,
+          Message
+        } = Flowai;
+        var originator = new Flowai.Originator({
+          name: "Auth",
+          profile: {
+            firstName: "Auth"
+          }
+        });
 
-	          var message = new Flowai.Message({
-							threadId: document.getElementById("userId").value,
-	    		 		traceId: 1,
-	        //    speech: "Bonjour",
-	  					attachment: new Flowai.EventAttachment(evnt),
-              metadata:{params: {statut:'Auth'}},
-	            originator
-	          });
-	          client.send(message);
-}
+        var message = new Flowai.Message({
+          threadId: document.getElementById("userId").value,
+          traceId: 1,
+          //    speech: "Bonjour",
+          attachment: new Flowai.EventAttachment(evnt),
+          metadata: {
+            params: {
+              statut: 'Auth'
+            }
+          },
+          originator
+        });
+        client.send(message);
+      }
 
-function sendMsg(msg){
-        var { LiveClient, Message } = Flowai;
-	          var message = new Flowai.Message({
-							threadId: document.getElementById("userId").value,
-	    		 		traceId: 1,
-	           speech: msg,
-	           originator
-	          });
-	          client.send(message);
-}
+      function sendMsg(msg) {
+        var {
+          LiveClient,
+          Message
+        } = Flowai;
+        var message = new Flowai.Message({
+          threadId: document.getElementById("userId").value,
+          traceId: 1,
+          speech: msg,
+          originator
+        });
+        client.send(message);
+      }
 
-function createMessageRobot(text){
-  var htmlOut='<div class="media" style="background-color:#6886c5; padding-left:10px; padding-top:10px;"><img src="img/icone_cruzr.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_cruzr"><div class="media-body"><h5 class="mt-0"><b>Robot Cruzr</b></h5><p style="padding-right:10px">';
-    htmlOut=htmlOut+ text;
-    htmlOut=htmlOut +'</p></div></div>';
-    $("#cibleChat").append(htmlOut);
-    var element = document.getElementById("cibleChat");
-    element.scrollTop = element.scrollHeight;
-}
+      function createMessageRobot(text) {
+        var htmlOut =
+          '<div class="media" style="background-color:#6886c5; padding-left:10px; padding-top:10px;"><img src="img/icone_cruzr.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_cruzr"><div class="media-body"><h5 class="mt-0"><b>Robot Cruzr</b></h5><p style="padding-right:10px">';
+        htmlOut = htmlOut + text;
+        htmlOut = htmlOut + '</p></div></div>';
+        $("#cibleChat").append(htmlOut);
+        var element = document.getElementById("cibleChat");
+        element.scrollTop = element.scrollHeight;
+      }
 
-function createMessageUser(){
-  var text= document.getElementById("inputMsg").value;
-  var htmlOut='<div class="media" style="background-color:#ffe0ac; padding-left:10px; padding-top:10px;"><div class="media-body"><h5 style="text-align:right;" class="mt-0"><b>Visiteur</b></h5><p style="text-align:right; padding-right:10px">';
-    htmlOut=htmlOut+ text;
-    htmlOut=htmlOut +'</p></div><img src="img/icone_user_inconnu.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_user_inconnu" /></div>';
-    $("#cibleChat").append(htmlOut);
-    document.getElementById("inputMsg").value="";
-    sendMsg(text);
-    var element = document.getElementById("cibleChat");
-    element.scrollTop = element.scrollHeight;
-}
+      function createMessageUser() {
+        var text = document.getElementById("inputMsg").value;
+        var htmlOut = '<div class="media" style="background-color:#ffe0ac; padding-left:10px; padding-top:10px;"><div class="media-body"><h5 style="text-align:right;" class="mt-0"><b>Visiteur</b></h5><p style="text-align:right; padding-right:10px">';
+        htmlOut = htmlOut + text;
+        htmlOut = htmlOut + '</p></div><img src="img/icone_user_inconnu.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_user_inconnu" /></div>';
+        $("#cibleChat").append(htmlOut);
+        document.getElementById("inputMsg").value = "";
+        sendMsg(text);
+        var element = document.getElementById("cibleChat");
+        element.scrollTop = element.scrollHeight;
+      }
 
-function createMessageVoiceUser(speech){
-  var text= speech;
-  var htmlOut='<div class="media" style="background-color:#ffe0ac; padding-left:10px; padding-top:10px;"><div class="media-body"><h5 style="text-align:right;" class="mt-0"><b>Visiteur</b></h5><p style="text-align:right; padding-right:10px">';
-    htmlOut=htmlOut+ text;
-    htmlOut=htmlOut +'</p></div><img src="img/icone_user_inconnu.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_user_inconnu" /></div>';
-    $("#cibleChat").append(htmlOut);
-    document.getElementById("inputMsg").value="";
-    sendMsg(text);
-    var element = document.getElementById("cibleChat");
-    element.scrollTop = element.scrollHeight;
-}
-
-
-init();
-function authToggle(){
-  if (authStatus=="inconnu"){
-    authStatus="authentifie";
-    document.getElementById("authBtn").className= "btn btn-success";
-    document.getElementById("authBtn").innerHTML= "Statut : authentifié";
-
-  }
-  else{
-    authStatus="inconnu";
-    document.getElementById("authBtn").className= "btn btn-primary";
-    document.getElementById("authBtn").innerHTML= "Statut : inconnu";
-
-  }
-
-}
+      function createMessageVoiceUser(speech) {
+        var text = speech;
+        var htmlOut = '<div class="media" style="background-color:#ffe0ac; padding-left:10px; padding-top:10px;"><div class="media-body"><h5 style="text-align:right;" class="mt-0"><b>Visiteur</b></h5><p style="text-align:right; padding-right:10px">';
+        htmlOut = htmlOut + text;
+        htmlOut = htmlOut + '</p></div><img src="img/icone_user_inconnu.jpg" width="75px;" class="rounded-circle mr-3" alt="icone_user_inconnu" /></div>';
+        $("#cibleChat").append(htmlOut);
+        document.getElementById("inputMsg").value = "";
+        sendMsg(text);
+        var element = document.getElementById("cibleChat");
+        element.scrollTop = element.scrollHeight;
+      }
 
 
+      init();
+
+      function authToggle() {
+        if (authStatus == "inconnu") {
+          authStatus = "authentifie";
+          document.getElementById("authBtn").className = "btn btn-success";
+          document.getElementById("authBtn").innerHTML = "Statut : authentifié";
+
+        } else {
+          authStatus = "inconnu";
+          document.getElementById("authBtn").className = "btn btn-primary";
+          document.getElementById("authBtn").innerHTML = "Statut : inconnu";
+
+        }
+
+      }
     </script>
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/speech.js"></script>
     <script src="js/interaction.js"></script>
-<script>
-$("#inputMsg").on('keypress',function(e) {
-    if(e.which == 13) {
-      createMessageUser();
-    }
-});
-//document.getElementById("userId").value=Math.floor(Math.random() * 10000000);
-
-</script>
-  </body>
+    <script>
+      $("#inputMsg").on('keypress', function(e) {
+        if (e.which == 13) {
+          createMessageUser();
+        }
+      });
+      //document.getElementById("userId").value=Math.floor(Math.random() * 10000000);
+      $('#modalInfo').modal('show')
+    </script>
+</body>

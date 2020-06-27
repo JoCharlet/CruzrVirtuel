@@ -69,7 +69,6 @@ $('#pause-record-btn').on('click', function(e) {
 ------------------------------*/
 
 function readOutLoud(message) {
-  console.log('bla bla bla');
   var speech = new SpeechSynthesisUtterance();
 
   // Set the text and voice attributes.
