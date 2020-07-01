@@ -37,11 +37,11 @@
         </div>
         <button onclick="authToggle()" id="authBtn" type="button" class="btn btn-primary">Statut : inconnu</button><br /><br />
         <hr /><br />
-        <button onclick="sendEvnt('USER4M')" type="button" class="btn btn-outline-primary">Visiteur passe la porte</button> <br /><br />
-        <button onclick="sendEvnt('USER2M')" type="button" class="btn btn-outline-primary">Visiteur devant le robot</button> <br /><br />
-        <button onclick="sendEvnt('SortieBureauTechnique')" type="button" class="btn btn-outline-primary">Visiteur sort du gichet technique</button> <br /><br />
-        <button onclick="sendEvnt('SortieBureau')" type="button" class="btn btn-outline-primary">Collaborateur sort d'un bureau</button> <br /><br />
-        <button onclick="sendEvnt('Temperature')" type="button" class="btn btn-outline-primary">Temperature trop élevée</button><br /><br />
+        <button onclick="sendEvnt('USER4M')" type="button" class="btn btn-outline-primary">Détection mouvement porte principale</button> <br /><br />
+        <button onclick="sendEvnt('USER2M')" type="button" class="btn btn-outline-primary">Détection présence proche</button> <br /><br />
+        <button onclick="sendEvnt('SortieBureauTechnique')" type="button" class="btn btn-outline-primary">Détection mouvement gauche (sortie guichet technique)</button> <br /><br />
+        <button onclick="sendEvnt('SortieBureau')" type="button" class="btn btn-outline-primary">Détection mouvement droite (sortie bureau)</button> <br /><br />
+        <button onclick="sendEvnt('Temperature')" type="button" class="btn btn-outline-primary">Détection température trop élevée</button><br /><br />
         <!-- <hr /><br /><br /> -->
         <button style="display:none" id="btnQR1" onclick="sendEvnt('QRCodeOK')" type="button" class="btn btn-outline-success screenDisplay">Présenter un QRCode valide</button><br />
         <button style="display:none" id="btnQR2" onclick="sendEvnt('QRCodeKO')" type="button" class="btn btn-outline-danger screenDisplay">Présenter un QRCode non valide</button><br /><br />
@@ -52,7 +52,7 @@
           Manuel d'instruction
         </button>
         <br /><br />
-        <button onclick="window.open('http://www.google.ch')" type="button" class="btn btn-info" style="margin-left:20px;">
+        <button onclick="window.open('https://fr.surveymonkey.com/r/XTYZX8D')" type="button" class="btn btn-info" style="margin-left:20px;">
           Questionnaire évaluation USUS
         </button>
       </div>
@@ -79,8 +79,10 @@
           <img onclick="interact('Je reste à ta disposition si tu as besoins de plus d information','infoTransportOK')" class="screenDisplay" id="screenInteractBus" src="img/TL.png" width="100%" style="display:none; cursor: pointer;" />
           <img onclick="interact('Je reste à ta disposition si tu as besoins de plus d information','infoTransportOK')" class="screenDisplay" id="screenInteractVoiture" src="img/etatRoute.png" width="100%" style="display:none; cursor: pointer;" />
 
-
-          <img onclick="sendEvnt('QRCodeOK')" class="screenDisplay" id="ScreenCodeQR" src="img/QRCode.jpg" width="100%" style="display:none; cursor: pointer;" />
+          <div class="screenDisplay" id="ScreenCodeQR" style="display:none">
+            <img onclick="sendEvnt('QRCodeOK')" src="img/QRCode.jpg" width="100%" style=" cursor: pointer;" />
+            <button onclick="sendEvnt('PASQRCode')" type="button" class="btn btn-warning" style="position: absolute;right: 20px; bottom: 50px;">J'ai oublié mon code QR</button>
+          </div>
 
           <img class="screenDisplay" id="presLausanne0" src="img/Lausanne/Lausanne0.jpg" width="100%" style="display:none" />
 
@@ -750,8 +752,14 @@
                     </div>
                   </div>
                   <div class="form-row">
+                    <div class="form-group">
+                      <label for="inputAddress">Email du visiteur</label>
+                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="inputDate">Prénom</label>
+                      <label for="inputDate">Date de la visite</label>
                       <input type="date" id="inputDate" name="date">
                     </div>
                   </div>
