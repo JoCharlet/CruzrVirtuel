@@ -52,6 +52,10 @@
           Manuel d'instruction
         </button>
         <br /><br />
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalScenario" style="margin-left:20px;">
+          Lite des scénarios
+        </button>
+        <br /><br />
         <button onclick="window.open('https://fr.surveymonkey.com/r/XTYZX8D')" type="button" class="btn btn-info" style="margin-left:20px;">
           Questionnaire évaluation USUS
         </button>
@@ -770,6 +774,17 @@
           </div>
           <!-- Fin screen nouveau visiteur-->
         </div>
+        <br />
+        <br />
+        <h2>Scenario en cours :</h2>
+        <h5>Situation</h5>
+        <p id="descScenario" style="font-size:21px;">
+          Utilisation libre
+        </p>
+        <h5>Résultat espéré</h5>
+        <p id="descRes" style="font-size:21px;">
+          Parcourez librement les fonctionnalités de la plateforme de simulation du Cruzr Virtuel
+        </p>
       </div>
 
       <div class="col-sm-3 cntnt" id="chat">
@@ -854,7 +869,100 @@
               <p class="font-italic">Jonathan Charlet</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="sendEvnt('USER4M')">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Modal Scénario -->
+      <div class="modal fade" id="modalScenario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Virtual Cruzr - SOI Ville de Lausanne - Scénarios</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h1>Liste des scénarios:</h1>
+              <ul>
+                <li>
+                  <b>Rendez-vous</b> Vous avez rendez-vous avec Mme Béatrice Ombre des RH. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil.
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(1)">Start</button>
+                </li>
+                <li>
+                  <b>Rendez-vous, Code QR perdu</b> Vous avez rendez-vous avec M. Lucien Canoso. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil mais vous avez malheureusement perdu ce document.
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(2)">Start</button>
+                </li>
+                <li>
+                  <b>Visite sans rendez-vous</b> Vous avez n’avez pas de rendez-vous mais vous aimeriez annoncer votre venue pour un contrôle des chauffages
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(3)">Start</button>
+                </li>
+                <li>
+                  <b>Vous n’aimez pas les robots</b> Vous n’appréciez pas les robots et vous voulez être pris en charge par une personne réelle
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(4)">Start</button>
+                </li>
+                <li>
+                  <b>Livraison</b> Vous devez effectuer une livraison au guichet du service technique
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(5)">Start</button>
+                </li>
+                <li>
+                  <b>Enquête de satisfaction</b> Vous venez d’effectuer une livraison au guichet du service technique et vous sortez. Cliquez sur le bouton « Capteur, sortie guichet technique »
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(6)">Start</button>
+                </li>
+                <li>
+                  <b>Malade</b> Vous avez rendez-vous mais vous vous sentez un peu fiévreux. Cliquez sur le bouton « Capteur, température »
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(7)">Start</button>
+                </li>
+                <li>
+                  <b>Occupation</b> Vous êtes arrivé en avance pour un rendez-vous, vous avez du temps à perdre et êtes curieux d’en savoir plus sur la ville de Lausanne et le SOI
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(8)">Start</button>
+                </li>
+                <li>
+                  <b>Nouveau rendez-vous</b> Vous avez planifié un rendez-vous avec Jonathan Charlet et vous devez lui envoyer la feuille de visite contenant le code QR pour qu’il puisse procéder à son accueil
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(9)">Start</button>
+                </li>
+                <li>
+                  <b>Découvrir SOI</b> Un nouveau collaborateur a été engagé, vous voulez laisser le soin au robot de lui faire une visite des bureaux
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(10)">Start</button>
+                </li>
+                <li>
+                  <b>Oubli de badge</b> Vous avez oublié votre badge et vous devez accéder à votre bureau.
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(11)">Start</button>
+                </li>
+                <li>
+                  <b>Chercher une salle de réunion</b> Vous cherchez une salle de réunion à occuper pour la prochaine heure
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(12)">Start</button>
+                </li>
+                <li>
+                  <b>Envoyer un message</b> Vous avez éteint votre ordinateur, mais sur le pas de la porte vous vous souvenez qu’il fallait que vous préveniez Marjolaine Rochat que les toners d’impressions étaient bientôt vides. Vous souhaitez lui
+                  laisser un message ce soir encore.
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(13)">Start</button>
+                </li>
+                <li>
+                  <b>Présence</b> Vous devez aller diner avec Didier Kas mais vous ne l’avez pas vu de la matinée. Vous vous demandez s’il est absent ou présent aujourd’hui
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(14)">Start</button>
+                </li>
+                <li>
+                  <b>CFF</b> Vous devez prendre le train pour Yverdon afin de visiter la société Avatarion Technology. Vous aimeriez connaitre les horaires de train pour aller à Yverdon-les-Bains
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(15)">Start</button>
+                </li>
+                <li>
+                  <b>Info trafic</b> Il est vendredi après-midi 16h et vous avez envie de profiter du weekend à votre chalet pour vous relaxer. Vous ne voulez pas vous énerver dans les bouchons et vous aimeriez connaitre l’état de la route avant
+                  partir
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(16)">Start</button>
+                </li>
+                <li>
+                  <b>Pizza</b> Il est midi et vous avez une envie de pizza, avec quelques collègues que vous retrouvez à l’accueil vous aimeriez faire une réservation à un restaurant pour vous assurer une table
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="goScenario(18)">Start</button>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="sendEvnt('USER4M')">Fermer</button>
             </div>
           </div>
         </div>
@@ -1034,9 +1142,19 @@
           authStatus = "inconnu";
           document.getElementById("authBtn").className = "btn btn-primary";
           document.getElementById("authBtn").innerHTML = "Statut : inconnu";
-
         }
+      }
 
+      function authInconnu() {
+        authStatus = "inconnu";
+        document.getElementById("authBtn").className = "btn btn-primary";
+        document.getElementById("authBtn").innerHTML = "Statut : inconnu";
+      }
+
+      function authAuth() {
+        authStatus = "authentifie";
+        document.getElementById("authBtn").className = "btn btn-success";
+        document.getElementById("authBtn").innerHTML = "Statut : authentifié";
       }
     </script>
     <script src="js/jquery.js"></script>
@@ -1050,6 +1168,173 @@
         }
       });
       //document.getElementById("userId").value=Math.floor(Math.random() * 10000000);
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const scenarioNumber = urlParams.get('s')
+      if (scenarioNumber == 1) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous avez rendez-vous avec Mme Béatrice Ombre des RH. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil.";
+        document.getElementById('descRes').innerHTML = "Mme Béatrice ombre est avertie de votre arrivée et arrive pour vous prendre en charge";
+      } else if (scenarioNumber == 2) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML =
+          "Vous avez rendez-vous avec M. Lucien Canoso. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil mais vous avez malheureusement perdu ce document.";
+        document.getElementById('descRes').innerHTML = "M. Lucien Canoso est averti de votre arrivée et arrive pour vous prendre en charge";
+      } else if (scenarioNumber == 3) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous avez n’avez pas de rendez-vous mais vous aimeriez annoncer votre venue pour un contrôle des chauffages";
+        document.getElementById('descRes').innerHTML = "Être accueilli par quelqu’un";
+      } else if (scenarioNumber == 4) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = ": Vous n’appréciez pas les robots et vous voulez être pris en charge par une personne réelle";
+        document.getElementById('descRes').innerHTML = "Être accueilli par quelqu’un";
+      } else if (scenarioNumber == 5) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous devez effectuer une livraison au guichet du service technique";
+        document.getElementById('descRes').innerHTML = "Savoir où se situe le guichet technique pour faire la livraison";
+      } else if (scenarioNumber == 6) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous venez d’effectuer une livraison au guichet du service technique et vous sortez. Cliquez sur le bouton « Capteur, sortie guichet technique »";
+        document.getElementById('descRes').innerHTML = "Participer à l’enquête de satisfaction";
+      } else if (scenarioNumber == 7) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous avez rendez-vous mais vous vous sentez un peu fiévreux. Cliquez sur le bouton « Capteur, température »";
+        document.getElementById('descRes').innerHTML = "Alerte, risque sanitaire.";
+      } else if (scenarioNumber == 8) {
+        authInconnu();
+        document.getElementById('descScenario').innerHTML = "Vous êtes arrivé en avance pour un rendez-vous, vous avez du temps à perdre et êtes curieux d’en savoir plus sur la ville de Lausanne et le SOI";
+        document.getElementById('descRes').innerHTML = "En savoir plus sur le SOI, la ville de Lausanne et ses événements.";
+      } else if (scenarioNumber == 9) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = "Vous avez planifié un rendez-vous avec Jonathan Charlet et vous devez lui envoyer la feuille de visite contenant le code QR pour qu’il puisse procéder à son accueil";
+        document.getElementById('descRes').innerHTML = "Jonathan Charlet dispose du QR code et de toutes les informations nécessaires pour être accueilli la prochaine fois";
+      } else if (scenarioNumber == 10) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = "Un nouveau collaborateur a été engagé, vous voulez laisser le soin au robot de lui faire une visite des bureaux";
+        document.getElementById('descRes').innerHTML = "Le nouveau collaborateur reçoit une visite des bureaux";
+      } else if (scenarioNumber == 11) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = ": Vous avez oublié votre badge et vous devez accéder à votre bureau.";
+        document.getElementById('descRes').innerHTML = "déverrouiller la porte pour accéder à votre bureau (celle de gauche ou de droite)";
+      } else if (scenarioNumber == 12) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = " Vous cherchez une salle de réunion à occuper pour la prochaine heure";
+        document.getElementById('descRes').innerHTML = "Vous avez trouvé une salle libre et vous l’avez réservée.";
+      } else if (scenarioNumber == 13) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML =
+          "Vous avez éteint votre ordinateur, mais sur le pas de la porte vous vous souvenez qu’il fallait que vous préveniez Marjolaine Rochat que les toners d’impressions étaient bientôt vides. Vous souhaitez lui laisser un message ce soir encore.";
+        document.getElementById('descRes').innerHTML = "Information transmise à Marjolaine Rochat.";
+      } else if (scenarioNumber == 14) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = "Vous devez aller diner avec Didier Kas mais vous ne l’avez pas vu de la matinée. Vous vous demandez s’il est absent ou présent aujourd’hui";
+        document.getElementById('descRes').innerHTML = "Connaitre la présence de Didier Kas";
+      } else if (scenarioNumber == 15) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = "Vous devez prendre le train pour Yverdon afin de visiter la société Avatarion Technology. Vous aimeriez connaitre les horaires de train pour aller à Yverdon-les-Bains";
+        document.getElementById('descRes').innerHTML = "Connaitre l’horaire du train pour Yverdon-les-Bains";
+      } else if (scenarioNumber == 16) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML =
+          "Il est vendredi après-midi 16h et vous avez envie de profiter du weekend à votre chalet pour vous relaxer. Vous ne voulez pas vous énerver dans les bouchons et vous aimeriez connaitre l’état de la route avant partir";
+        document.getElementById('descRes').innerHTML = "Connaitre l’état du trafic routier";
+      } else if (scenarioNumber == 17) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML =
+          "Il est vendredi après-midi 16h et vous avez envie de profiter du weekend à votre chalet pour vous relaxer. Vous ne voulez pas vous énerver dans les bouchons et vous aimeriez connaitre l’état de la route avant partir";
+        document.getElementById('descRes').innerHTML = "Connaitre l’état du trafic routier";
+      } else if (scenarioNumber == 18) {
+        authAuth();
+        document.getElementById('descScenario').innerHTML = "Il est midi et vous avez une envie de pizza, avec quelques collègues que vous retrouvez à l’accueil vous aimeriez faire une réservation à un restaurant pour vous assurer une table";
+        document.getElementById('descRes').innerHTML = "Trouver un restaurant italien et faire une réservation ";
+      } else {
+        console.log();
+      }
+
+
       $('#modalInfo').modal('show')
+
+
+      function goScenario(scenarioNumber) {
+        if (scenarioNumber == 1) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous avez rendez-vous avec Mme Béatrice Ombre des RH. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil.";
+          document.getElementById('descRes').innerHTML = "Mme Béatrice ombre est avertie de votre arrivée et arrive pour vous prendre en charge";
+        } else if (scenarioNumber == 2) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML =
+            "Vous avez rendez-vous avec M. Lucien Canoso. Vous avez reçu avec votre confirmation de visite un code QR à utiliser pour procéder à votre accueil mais vous avez malheureusement perdu ce document.";
+          document.getElementById('descRes').innerHTML = "M. Lucien Canoso est averti de votre arrivée et arrive pour vous prendre en charge";
+        } else if (scenarioNumber == 3) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous avez n’avez pas de rendez-vous mais vous aimeriez annoncer votre venue pour un contrôle des chauffages";
+          document.getElementById('descRes').innerHTML = "Être accueilli par quelqu’un";
+        } else if (scenarioNumber == 4) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = ": Vous n’appréciez pas les robots et vous voulez être pris en charge par une personne réelle";
+          document.getElementById('descRes').innerHTML = "Être accueilli par quelqu’un";
+        } else if (scenarioNumber == 5) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous devez effectuer une livraison au guichet du service technique";
+          document.getElementById('descRes').innerHTML = "Savoir où se situe le guichet technique pour faire la livraison";
+        } else if (scenarioNumber == 6) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous venez d’effectuer une livraison au guichet du service technique et vous sortez. Cliquez sur le bouton « Capteur, sortie guichet technique »";
+          document.getElementById('descRes').innerHTML = "Participer à l’enquête de satisfaction";
+        } else if (scenarioNumber == 7) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous avez rendez-vous mais vous vous sentez un peu fiévreux. Cliquez sur le bouton « Capteur, température »";
+          document.getElementById('descRes').innerHTML = "Alerte, risque sanitaire.";
+        } else if (scenarioNumber == 8) {
+          authInconnu();
+          document.getElementById('descScenario').innerHTML = "Vous êtes arrivé en avance pour un rendez-vous, vous avez du temps à perdre et êtes curieux d’en savoir plus sur la ville de Lausanne et le SOI";
+          document.getElementById('descRes').innerHTML = "En savoir plus sur le SOI, la ville de Lausanne et ses événements.";
+        } else if (scenarioNumber == 9) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = "Vous avez planifié un rendez-vous avec Jonathan Charlet et vous devez lui envoyer la feuille de visite contenant le code QR pour qu’il puisse procéder à son accueil";
+          document.getElementById('descRes').innerHTML = "Jonathan Charlet dispose du QR code et de toutes les informations nécessaires pour être accueilli la prochaine fois";
+        } else if (scenarioNumber == 10) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = "Un nouveau collaborateur a été engagé, vous voulez laisser le soin au robot de lui faire une visite des bureaux";
+          document.getElementById('descRes').innerHTML = "Le nouveau collaborateur reçoit une visite des bureaux";
+        } else if (scenarioNumber == 11) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = ": Vous avez oublié votre badge et vous devez accéder à votre bureau.";
+          document.getElementById('descRes').innerHTML = "déverrouiller la porte pour accéder à votre bureau (celle de gauche ou de droite)";
+        } else if (scenarioNumber == 12) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = " Vous cherchez une salle de réunion à occuper pour la prochaine heure";
+          document.getElementById('descRes').innerHTML = "Vous avez trouvé une salle libre et vous l’avez réservée.";
+        } else if (scenarioNumber == 13) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML =
+            "Vous avez éteint votre ordinateur, mais sur le pas de la porte vous vous souvenez qu’il fallait que vous préveniez Marjolaine Rochat que les toners d’impressions étaient bientôt vides. Vous souhaitez lui laisser un message ce soir encore.";
+          document.getElementById('descRes').innerHTML = "Information transmise à Marjolaine Rochat.";
+        } else if (scenarioNumber == 14) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = "Vous devez aller diner avec Didier Kas mais vous ne l’avez pas vu de la matinée. Vous vous demandez s’il est absent ou présent aujourd’hui";
+          document.getElementById('descRes').innerHTML = "Connaitre la présence de Didier Kas";
+        } else if (scenarioNumber == 15) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = "Vous devez prendre le train pour Yverdon afin de visiter la société Avatarion Technology. Vous aimeriez connaitre les horaires de train pour aller à Yverdon-les-Bains";
+          document.getElementById('descRes').innerHTML = "Connaitre l’horaire du train pour Yverdon-les-Bains";
+        } else if (scenarioNumber == 16) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML =
+            "Il est vendredi après-midi 16h et vous avez envie de profiter du weekend à votre chalet pour vous relaxer. Vous ne voulez pas vous énerver dans les bouchons et vous aimeriez connaitre l’état de la route avant partir";
+          document.getElementById('descRes').innerHTML = "Connaitre l’état du trafic routier";
+        } else if (scenarioNumber == 17) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML =
+            "Il est vendredi après-midi 16h et vous avez envie de profiter du weekend à votre chalet pour vous relaxer. Vous ne voulez pas vous énerver dans les bouchons et vous aimeriez connaitre l’état de la route avant partir";
+          document.getElementById('descRes').innerHTML = "Connaitre l’état du trafic routier";
+        } else if (scenarioNumber == 18) {
+          authAuth();
+          document.getElementById('descScenario').innerHTML = "Il est midi et vous avez une envie de pizza, avec quelques collègues que vous retrouvez à l’accueil vous aimeriez faire une réservation à un restaurant pour vous assurer une table";
+          document.getElementById('descRes').innerHTML = "Trouver un restaurant italien et faire une réservation ";
+        } else {
+          console.log();
+        }
+      }
     </script>
 </body>
